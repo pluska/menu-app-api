@@ -1,0 +1,30 @@
+{
+  "name": "react_menus_backend",
+  "version": "1.0.0",
+  "description": "API to connect the DataBase with the frontend",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/index.js"
+  },
+  "keywords": [
+    "Node"
+  ],
+  "author": "Andres Pluska <pluskaandres@gmail>",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "body-parser": "^1.20.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "helmet": "^5.1.0",
+    "http-status": "^1.5.2",
+    "joi": "^17.6.0",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.21.2",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.18"
+  }
+}
