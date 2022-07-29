@@ -5,6 +5,9 @@ const { sequelize } = require("./database/database");
 const bodyParser = require("body-parser");
 require("./models/Menu");
 require("./models/Recipe");
+require("./models/Category");
+require("./models/Ingredient");
+require("./models/associations");
 
 const express = require("express");
 const router = require("./routes/index");
@@ -22,7 +25,7 @@ app.use(cors());
 
 async function main() {
   try {
-    /* await sequelize.sync({ force: false }); */
+    await sequelize.sync({ force: true });
     app.listen(port, () => {
       console.log(`App listening in port ${port}`);
     });

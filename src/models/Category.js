@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("../database/database");
 
-const Recipe = sequelize.define("recipes", {
+const Category = sequelize.define("categories", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -9,16 +9,11 @@ const Recipe = sequelize.define("recipes", {
   },
   name: {
     type: DataTypes.STRING,
+    allowNull: false,
   },
   description: {
     type: DataTypes.STRING,
   },
-  eaters: {
-    type: DataTypes.INTEGER,
-  },
-  repeat: {
-    type: DataTypes.STRING,
-  },
 });
 
-module.exports = Recipe;
+module.exports = Category;
