@@ -7,6 +7,8 @@ const getRecipes = async (req, res) => {
 
     if (!recipes) {
       res.status(httpStatus.NOT_FOUND);
+    } else if (recipes.length === 0) {
+      res.status(httpStatus.NO_CONTENT);
     }
 
     res.status(httpStatus.OK).json(recipes);
@@ -20,9 +22,11 @@ const getRecipes = async (req, res) => {
 const getRecipe = async (req, res) => {
   try {
     const { id } = req.params;
-    const recipe = await Recipe.findByPk({ where: { id } });
+    const recipe = await Recipe.findOne({ where: { id: id } });
     if (!recipe) {
       res.status(httpStatus.NOT_FOUND);
+    } else if (recipe.length === 0) {
+      res.status(httpStatus.NO_CONTENT);
     }
     res.status(httpStatus.OK).json(recipe);
   } catch (error) {
@@ -33,12 +37,14 @@ const getRecipe = async (req, res) => {
 };
 
 const createRecipe = async (req, res) => {
-  const { name, description } = req.body;
+  const { name, description, eaters, repeat } = req.body;
 
   try {
     const newRecipe = await Recipe.create({
       name,
       description,
+      eaters,
+      repeat,
     });
     res.status(httpStatus.OK).json(newRecipe);
   } catch (error) {
@@ -47,18 +53,22 @@ const createRecipe = async (req, res) => {
 };
 
 const updateRecipe = async (req, res) => {
-  const { id } = req.params.id;
-  const { name, week, description } = req.body;
+  const { id } = req.params;
+  const { name, description, eaters, repeat } = req.body;
   try {
-    const recipe = await Recipe.findByPk(id);
-    if (!recipe) {
-      res.status(httpStatus.NOT_FOUND);
+    console.log("Your recipe is" + req.params.id);
+    const recipe = await Recipe.findOne({ where: { id: id } });
+    if (recipe === null) {
+      return res.status(httpStatus.NOT_FOUND);
     }
     recipe.name = name;
-    recipe.week = week;
     recipe.description = description;
+    recipe.eaters = eaters || 1;
+    recipe.repeat = repeat || "DAILY";
     await recipe.save();
-    res.status(httpStatus.OK).json(recipe);
+    return res
+      .status(httpStatus.OK)
+      .json({ message: "Recipe updated successfully", recipe });
   } catch (error) {
     return res.status(httpStatus[500]).json({ message: error.message });
   }

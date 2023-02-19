@@ -4,9 +4,10 @@ const Menu = require("../models/Menu");
 const getMenus = async (req, res) => {
   try {
     const menus = await Menu.findAll();
-
     if (!menus) {
       res.status(httpStatus.NOT_FOUND);
+    } else if (menus.length === 0) {
+      res.status(httpStatus.NO_CONTENT).json(menus);
     }
 
     res.status(httpStatus.OK).json(menus);
@@ -23,6 +24,8 @@ const getMenu = async (req, res) => {
     const menu = await Menu.findByPk({ where: { id } });
     if (!menu) {
       res.status(httpStatus.NOT_FOUND);
+    } else if (menu.length === 0) {
+      res.status(httpStatus.NO_CONTENT);
     }
     res.status(httpStatus.OK).json(menu);
   } catch (error) {
